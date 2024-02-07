@@ -1,0 +1,69 @@
+[ 2024-02-07 12:11:54,078 ] 96 werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.8:5000
+[ 2024-02-07 12:11:54,078 ] 96 werkzeug - INFO - [33mPress CTRL+C to quit[0m
+[ 2024-02-07 12:12:45,599 ] 96 werkzeug - INFO - 127.0.0.1 - - [07/Feb/2024 12:12:45] "GET / HTTP/1.1" 200 -
+[ 2024-02-07 12:12:45,684 ] 96 werkzeug - INFO - 127.0.0.1 - - [07/Feb/2024 12:12:45] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[ 2024-02-07 12:12:58,499 ] 96 werkzeug - INFO - 127.0.0.1 - - [07/Feb/2024 12:12:58] "GET /predictdata HTTP/1.1" 200 -
+[ 2024-02-07 12:13:21,474 ] 828 app - ERROR - Exception on /predictdata [POST]
+TypeError: float() argument must be a string or a number, not 'tuple'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\MLPROJECT\src\pipeline\predict_pipeline.py", line 20, in predict
+    data_scaled = preprocessor.transform(features)
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\utils\_set_output.py", line 157, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\compose\_column_transformer.py", line 827, in transform
+    Xs = self._fit_transform(
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\compose\_column_transformer.py", line 681, in _fit_transform
+    return Parallel(n_jobs=self.n_jobs)(
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\utils\parallel.py", line 65, in __call__
+    return super().__call__(iterable_with_config)
+  File "D:\MLPROJECT\venv\lib\site-packages\joblib\parallel.py", line 1863, in __call__
+    return output if self.return_generator else list(output)
+  File "D:\MLPROJECT\venv\lib\site-packages\joblib\parallel.py", line 1792, in _get_sequential_output
+    res = func(*args, **kwargs)
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\utils\parallel.py", line 127, in __call__
+    return self.function(*args, **kwargs)
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\pipeline.py", line 940, in _transform_one
+    res = transformer.transform(X)
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\pipeline.py", line 696, in transform
+    Xt = transform.transform(Xt)
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\utils\_set_output.py", line 157, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\impute\_base.py", line 530, in transform
+    X = self._validate_input(X, in_fit=False)
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\impute\_base.py", line 332, in _validate_input
+    raise ve
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\impute\_base.py", line 315, in _validate_input
+    X = self._validate_data(
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\base.py", line 605, in _validate_data
+    out = check_array(X, input_name="X", **check_params)
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\utils\validation.py", line 915, in check_array
+    array = _asarray_with_order(array, order=order, dtype=dtype, xp=xp)
+  File "D:\MLPROJECT\venv\lib\site-packages\sklearn\utils\_array_api.py", line 380, in _asarray_with_order
+    array = numpy.asarray(array, order=order, dtype=dtype)
+  File "D:\MLPROJECT\venv\lib\site-packages\pandas\core\generic.py", line 1998, in __array__
+    arr = np.asarray(values, dtype=dtype)
+ValueError: setting an array element with a sequence.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\MLPROJECT\venv\lib\site-packages\flask\app.py", line 1463, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\MLPROJECT\venv\lib\site-packages\flask\app.py", line 872, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\MLPROJECT\venv\lib\site-packages\flask\app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\MLPROJECT\venv\lib\site-packages\flask\app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app.py", line 39, in predict_datapoint
+    results = predicts_pipeline.predict(pred_df)
+  File "D:\MLPROJECT\src\pipeline\predict_pipeline.py", line 25, in predict
+    raise CustomException(e, sys)
+src.exception.CustomException: Error occured in python script name [D:\MLPROJECT\src\pipeline\predict_pipeline.py] line number [20, error message [setting an array element with a sequence.]
+[ 2024-02-07 12:13:21,481 ] 96 werkzeug - INFO - 127.0.0.1 - - [07/Feb/2024 12:13:21] "[35m[1mPOST /predictdata HTTP/1.1[0m" 500 -
